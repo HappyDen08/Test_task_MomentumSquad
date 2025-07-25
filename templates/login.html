@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | Theater Booking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-container {
+            background: #fff;
+            padding: 2.5rem 2rem 2rem 2rem;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+            width: 100%;
+            max-width: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.8s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .login-container h2 {
+            margin-bottom: 1.5rem;
+            color: #2575fc;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .login-container form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            padding: 0.7rem 1rem;
+            margin-bottom: 1.1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+        .login-container input[type="text"]:focus,
+        .login-container input[type="password"]:focus {
+            border: 1.5px solid #2575fc;
+            outline: none;
+        }
+        .login-container button {
+            background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.8rem 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            margin-bottom: 0.5rem;
+        }
+        .login-container button:hover {
+            background: linear-gradient(90deg, #2575fc 0%, #6a11cb 100%);
+            transform: translateY(-2px) scale(1.03);
+        }
+        .error-message {
+            color: #e74c3c;
+            background: #ffeaea;
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.97rem;
+            text-align: center;
+        }
+        @media (max-width: 400px) {
+            .login-container {
+                padding: 1.5rem 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Sign in to Theater Booking</h2>
+        <form method="post" id="login-form" autocomplete="on">
+            {% csrf_token %}
+            {{ form.username.label_tag }}
+            {{ form.username }}
+            {{ form.password.label_tag }}
+            {{ form.password }}
+            <button type="submit">Login</button>
+        </form>
+        {% if form.errors %}
+            <div class="error-message" id="error-message">
+                Invalid username or password. Please try again.
+            </div>
+        {% endif %}
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userInput = document.querySelector('input[name="username"]');
+            if (userInput) userInput.focus();
+        });
+    </script>
+    {% if form.errors %}
+    <script>
+        document.querySelector('.login-container').animate([
+            { transform: 'translateX(0)' },
+            { transform: 'translateX(-10px)' },
+            { transform: 'translateX(10px)' },
+            { transform: 'translateX(-10px)' },
+            { transform: 'translateX(10px)' },
+            { transform: 'translateX(0)' }
+        ], { duration: 400, iterations: 1 });
+    </script>
+    {% endif %}
+</body>
+</html> 
